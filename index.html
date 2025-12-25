@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ESP32-CAM Home Security System - Live Camera Feed">
+    <title>🎥 ESP32-CAM Security System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="bg-animation"></div>
+    
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="icon">🎥</span>
+                <h1>ESP32-CAM Security</h1>
+            </div>
+            <div class="status-badge" id="statusBadge">
+                <span class="status-dot" id="statusDot"></span>
+                <span id="statusText">Connecting...</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Video Stream Card -->
+            <div class="card stream-card">
+                <div class="card-header">
+                    <h2>📹 Live Camera Feed</h2>
+                    <div class="stream-controls">
+                        <button class="btn btn-secondary" id="refreshBtn" title="Refresh Stream">
+                            <span class="icon">🔄</span>
+                        </button>
+                        <button class="btn btn-secondary" id="fullscreenBtn" title="Fullscreen">
+                            <span class="icon">⛶</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="stream-container" id="streamContainer">
+                    <div class="stream-placeholder" id="placeholder">
+                        <div class="spinner"></div>
+                        <p>Connecting to camera...</p>
+                    </div>
+                    <img id="streamImage" class="stream-image" alt="Live Camera Feed" style="display: none;">
+                    <div class="stream-overlay">
+                        <div class="stream-info">
+                            <span id="fpsCounter">-- FPS</span>
+                            <span id="timestamp">--:--:--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Configuration Card -->
+            <div class="card config-card">
+                <div class="card-header">
+                    <h2>⚙️ Stream Configuration</h2>
+                </div>
+                <div class="card-body">
+                    <form id="configForm">
+                        <div class="form-group">
+                            <label for="cameraIP">Camera IP Address:</label>
+                            <input 
+                                type="text" 
+                                id="cameraIP" 
+                                placeholder="192.168.1.100" 
+                                pattern="^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+                                required
+                            >
+                            <small>Enter your ESP32-CAM local IP address</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="streamToken">Security Token:</label>
+                            <input 
+                                type="text" 
+                                id="streamToken" 
+                                placeholder="mySecureToken123"
+                                required
+                            >
+                            <small>Token configured in Arduino sketch</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="streamPort">Port (default: 80):</label>
+                            <input 
+                                type="number" 
+                                id="streamPort" 
+                                value="80"
+                                min="1"
+                                max="65535"
+                            >
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <span class="icon">🚀</span>
+                            Connect to Stream
+                        </button>
+                    </form>
+                    
+                    <div class="stream-url" id="streamUrl" style="display: none;">
+                        <label>Stream URL:</label>
+                        <code id="urlDisplay"></code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Cards -->
+            <div class="info-grid">
+                <div class="card info-card">
+                    <div class="info-icon">📱</div>
+                    <h3>Telegram Commands</h3>
+                    <div class="command-list">
+                        <div class="command">
+                            <code>/record</code>
+                            <span>Record 10-sec video</span>
+                        </div>
+                        <div class="command">
+                            <code>/photo</code>
+                            <span>Take snapshot</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card info-card">
+                    <div class="info-icon">🔒</div>
+                    <h3>Security Status</h3>
+                    <ul class="security-list">
+                        <li><span class="check">✓</span> Token authentication</li>
+                        <li><span class="check">✓</span> Local network only</li>
+                        <li><span class="check">✓</span> Encrypted Telegram</li>
+                    </ul>
+                </div>
+
+                <div class="card info-card">
+                    <div class="info-icon">📊</div>
+                    <h3>System Stats</h3>
+                    <div class="stats">
+                        <div class="stat">
+                            <span class="stat-label">Uptime:</span>
+                            <span class="stat-value" id="uptime">--</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Quality:</span>
+                            <span class="stat-value">VGA 640x480</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>ESP32-CAM Security System | Built with ❤️ for Home Security</p>
+            <p class="warning">⚠️ For local network use only. Do not expose to internet without VPN.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
